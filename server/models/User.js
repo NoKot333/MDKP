@@ -14,11 +14,7 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    posts: {
-        type: Array,
-        default: [],
-    },
-    isSpecial: {
+    isModerator: {
         type: Boolean,
         required: true,
     },

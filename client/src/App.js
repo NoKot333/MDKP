@@ -3,7 +3,7 @@ import {Routes, Route} from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { Header } from "./components";
 import React from "react";
-import { Home, FullPost, Registration, AddPost, Login, PopularHome, PostsTags,Settings } from "./pages";
+import { Home, FullPost, Registration, AddPost, Login, PopularHome, PostsTags,User } from "./pages";
 import { fetchAuthMe, selectIsAuth } from "./redux/slices/auth";
 
 function App() {
@@ -27,7 +27,7 @@ function App() {
           <Route path="/add-post" element={<AddPost />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Registration />} />
-          <Route path="/settings" element={<Settings />} />
+          <Route path="/user/:id" element={<User />} />
         </Routes>
       </Container>
     </>

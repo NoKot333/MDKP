@@ -14,13 +14,14 @@ export const CommentsBlock = ({ items, children, isLoading = true }) => {
     <SideBlock title="Комментарии">
       <List>
         {(isLoading ? [...Array(5)] : items).map((obj, index) => (
+          obj?(
           <React.Fragment key={index}>
             <ListItem alignItems="flex-start">
               <ListItemAvatar>
                 {isLoading ? (
                   <Skeleton variant="circular" width={40} height={40} />
                 ) : (
-                  <Avatar alt={obj.user.fullName} src={obj.user.avatarUrl} />
+                  <Avatar alt={obj.user?obj.user.fullName:"Мёртвый пользователь"} src={obj.user?`http://localhost:4444${obj.user.avatarUrl}`:`http://localhost:4444/uknownpage.png`} />
                 )}
               </ListItemAvatar>
               {isLoading ? (
@@ -30,13 +31,14 @@ export const CommentsBlock = ({ items, children, isLoading = true }) => {
                 </div>
               ) : (
                 <ListItemText
-                  primary={obj.user.fullName}
+                  primary={obj.user?obj.user.fullName:"Мёртвый пользователь"}
                   secondary={obj.text}
                 />
               )}
             </ListItem>
             <Divider variant="inset" component="li" />
           </React.Fragment>
+          ):<></>
         ))}
       </List>
       {children}

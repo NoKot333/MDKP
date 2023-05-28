@@ -17,6 +17,7 @@ export const TagsBlock = ({ items, isLoading = true }) => {
         {(isLoading ? [...Array(5)] : items).map((name, i) => (
                       
             <ListItem key={i} disablePadding>
+              <Link to={`/posts/tags/${name}`} >
               <ListItemButton>
                 <ListItemIcon>
                   <TagIcon />
@@ -24,11 +25,11 @@ export const TagsBlock = ({ items, isLoading = true }) => {
                 {isLoading ? (
                   <Skeleton width={100} />
                 ) : (
-                  <Link to={`/posts/tags/${name}`} >
+                  
                   <ListItemText primary={name} />
-                  </Link>
                 )}
               </ListItemButton>
+              </Link>
             </ListItem>
         ))}
       </List>

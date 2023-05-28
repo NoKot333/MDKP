@@ -17,6 +17,15 @@ export const fetchAuthMe = createAsyncThunk('auth/fetchAuthMe', async () => {
     return data;
 });
 
+export const removeUser = createAsyncThunk('posts/removeUser',async (id) => 
+    await axios.delete(`/user/${id}`),
+);
+
+export const patchUserInfo = createAsyncThunk('auth/patchUserInfo',async (id) => {
+    const {data} = await axios.get(`/user/${id}`);
+    return data;
+})
+
 const initialState = {
     data: null,
     status: 'loading',

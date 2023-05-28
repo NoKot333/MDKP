@@ -17,7 +17,7 @@ export const register = async (req,res) => {
         fullName: req.body.fullName,
         avatarUrl: req.body.avatarUrl,
         passwordHash : hash,
-        isSpecial: false,
+        isModerator: false,
     });
 
     const user = await doc.save();
@@ -104,3 +104,79 @@ export const getMe = async (req,res) => {
         });
     }
 };
+
+export const updateOne = async (req,res) => {
+    try {
+        const userId = req.params.id;
+
+        await UserModel.updateOne({
+            _id: userId,
+        }, 
+        {   
+            fullName: req.body.fullName?req.body.fullName:fullName,
+            email: req.body.email?req.body.email:email,
+            avatarUrl: req.body.avatarUrl?req.body.avatarUrl:""
+        },
+    );
+    res.json({
+        success:true,
+    });
+    } catch (err) {
+        res.status(500).json({
+            message: 'Не удалось изменить профиль',
+        });
+    }
+}
+
+export const getOne = async (req,res) => {
+        const userId = req.params.id;
+        try {
+            const user = await UserModel.findById(userId);
+            if(!user) {
+                return res.status(404).json({
+                    message:'Пользователь не найден',
+                });
+            }
+            const { passwordHash, ...userData} = user._doc;
+    
+        res.json( {
+            ...userData
+        });
+        } catch (err) {
+            console.log(err);
+            res.status(500).json( {
+                message: 'Нет доступа'
+            });
+        }
+}
+
+export const removeOne = async (req, res) => {
+    try {
+      const userId = req.params.id;
+      UserModel.findByIdAndRemove({
+        _id: userId,
+      },
+      (err,doc)=> {
+        if (err) {
+            console.log(err);
+            return res.status(500).json({
+                message:'Не удалось получить пользователя',
+            });
+        }
+        if (!doc) {
+            return res.status(404).json({
+                message:'Пользователь не найден',
+            });
+        }
+        res.json( {
+            success:true,
+        });
+      },
+    );
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({
+        message: 'Не удалось получить пользователя',
+      });
+    }
+  };

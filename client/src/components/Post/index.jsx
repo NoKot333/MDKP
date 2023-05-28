@@ -6,7 +6,7 @@ import DeleteIcon from '@mui/icons-material/Clear';
 import EditIcon from '@mui/icons-material/Edit';
 import EyeIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import CommentIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from './Post.module.scss';
 import { UserInfo } from '../UserInfo';
 import { PostSkeleton } from './Skeleton';
@@ -27,6 +27,7 @@ export const Post = ({
   isEditable,
 }) => {
   const navigate = useNavigate();
+  const userData = useSelector(state => state.auth.data);
   const dispatch = useDispatch();
   if (isLoading) {
     return <PostSkeleton />;
@@ -42,7 +43,7 @@ export const Post = ({
   
   return (
     <div className={clsx(styles.root, { [styles.rootFull]: isFullPost })}>
-      {isEditable && (
+      {(isEditable || (userData && userData.isModerator)) &&  (
         <div className={styles.editButtons}>
           <Link to={`/posts/${_id}/edit`}>
             <IconButton color="primary">

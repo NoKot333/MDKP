@@ -5,4 +5,4 @@ export { Registration } from "./Registration";
 export { Login } from "./Login";
 export {PopularHome} from "./PopularHome"
 export {PostsTags} from "./PostsTags"
-export {Settings} from "./Settings"
+export {User} from "./Profile"

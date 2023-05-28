@@ -60,7 +60,7 @@ export const FullPost = () => {
 }, [params.id, dispatch])
 
   useEffect(() => {
-  fetchComments()
+  fetchComments(id)
 }, [fetchComments])
 
   if (isLoading) {
@@ -78,8 +78,8 @@ export const FullPost = () => {
         user={data.user}
         createdAt={data.createdAt}
         viewsCount={data.viewsCount}
-        commentsCount={data.comments.length}
-        tags={data.tags}
+        commentsCount={data.comments?data.comments.length:"0"}
+        tags={data.tags?data.tags:[]}
         isEditable={(userData&&data.user!=null)?userData._id===data.user._id:false}
         isFullPost
       >
@@ -87,28 +87,17 @@ export const FullPost = () => {
         <ReactMarkdown children={data.text}/>
       </Post>    
       
-      <div style={{position:"relative", bottom:"0px"}}>
-      <form
-                        onSubmit={(e) => e.preventDefault()}
-                    >
-                        <input
-                            type='text'
-                            value={comment}
-                            onChange={(e) => setComment(e.target.value)}
-                            placeholder='Comment'
-                        />
-                        <button
-                            type='submit'
-                            onClick={handleSubmit}
-                        >
-                            Отправить
-                        </button>
-                    </form>
-                    {comments?.map((cmt) => (
-                        <CommentItem key={cmt._id} cmt={cmt} />
-                    ))}
-                </div>
                 </div >
+      { comments?
+      <CommentsBlock
+        items={comments}
+        isLoading={false}
+      >
+        { userData &&
+        <Index param = {params} items={ comment} />
+      }
+      </CommentsBlock>
+      :<></>}
     </>
   );
 };

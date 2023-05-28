@@ -5,9 +5,6 @@ export const create = async (req,res) => {
     try {
         const {postId,comment} = req.body
         const userId = req.userId;
-        console.log(postId);
-        console.log(comment);
-        console.log(userId);
         
         if(!comment)
             return res.json({message: "Комментарий не может быть пустым"})
@@ -27,4 +24,34 @@ export const create = async (req,res) => {
         console.log(error)
         res.status(500).json({message: "Что-то пошло не так."})
     }
+};
+export const remove = async (req,res) => {
+    try {
+    const commentId = req.params.id;
+    CommentModel.findByIdAndRemove({
+      _id: commentId,
+    },
+    (err,doc)=> {
+      if (err) {
+          console.log(err);
+          return res.status(500).json({
+              message:'Не удалось получить статью',
+          });
+      }
+      if (!doc) {
+          return res.status(404).json({
+              message:'Статья не найдена',
+          });
+      }
+      res.json( {
+          success:true,
+      });
+    },
+  );
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: 'Не удалось получить статьи',
+    });
+  }
 };

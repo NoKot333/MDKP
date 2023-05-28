@@ -5,7 +5,7 @@ import cors from 'cors';
 
 import {registerValidation,loginValidation, postCreateValidation} from './validation.js';
 import {handleValidationErrors, CheckAuth} from './Utils/index.js';
-import {UserController, PostController, ComentController} from './controllers/index.js';
+import {UserController, PostController, CommentController} from './controllers/index.js';
 
 
 mongoose.set("strictQuery", true);
@@ -33,6 +33,8 @@ app.use('/uploads',express.static('uploads'));
 
 app.post('/auth/login', loginValidation, handleValidationErrors,  UserController.login);
 app.post('/auth/register', registerValidation, handleValidationErrors,  UserController.register);
+app.patch('/user/:id', CheckAuth, UserController.updateOne)
+app.get('/user/:id',  UserController.getOne)
 
 app.post('/upload',CheckAuth, upload.single('image'),(req,res)=> {
     res.json({
@@ -50,11 +52,13 @@ app.get('/posts/:id', PostController.getOne);
 app.post('/posts', CheckAuth, postCreateValidation, handleValidationErrors, PostController.create);
 app.delete('/posts/:id', CheckAuth, PostController.removeOne);
 app.patch('/posts/:id', CheckAuth, postCreateValidation, handleValidationErrors, PostController.updateOne);
-
+app.get('/posts/user/:id', PostController.getUserPost);
 app.get('/posts/tags/:tag', PostController.getPostTags);
+app.get('/posts/tags/',  PostController.getAll);
 
-app.post('/comments/:id',CheckAuth,ComentController.create);
+app.post('/comments/:id',CheckAuth,CommentController.create);
 app.get('/posts/comments/:id',PostController.getPostComments);
+app.delete('/user/:id', CheckAuth, UserController.removeOne);
 
 app.listen(4444, (err) => {
     if (err) {
