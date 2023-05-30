@@ -10,31 +10,11 @@ it("Hello world! Connection to Server",function(done) {
 })
 
 it("Must return posts",function(done) {
+    this.timeout(4000);
     supertest(app)
     .get("/posts").expect(200).end(done);
 })
-{/*it("Login",function(done) {
-    supertest(app)
-    .post("/auth/login").send({
-        "email":"nikitaopsin@gmail.com",
-        "password":"123"
-    }).expect(200)
-    .end((err,res) => {
-        if(err) return done(err);
-        expect(res.body).equal({
-                "_id": "647027a4b1b7daff91ed5290",
-                "fullName": "Никита Опшин",
-                "email": "nikitaopsin@gmail.com",
-                "isModerator": false,
-                "createdAt": "2023-05-26T03:29:40.861Z",
-                "updatedAt": "2023-05-26T03:31:04.070Z",
-                "token": expect,
-                "__v": 0,
-                "avatarUrl": "/uploads/Ð¡Ð½Ð¸Ð¼Ð¾Ðº ÑÐºÑÐ°Ð½Ð° 2023-03-14 145412.png",
-            })
-        done();
-    })
-})*/}
+
 it("Login",function(done) {
     supertest(app)
     .post("/auth/login").send({
@@ -127,6 +107,16 @@ it("Login",function(done) {
                         supertest(app)
                         .get("/auth/me")
                         .set('Authorization',`Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDcwMjdhNGIxYjdkYWZmOTFlZDUyOTAiLCJpYXQiOjE2ODU0MjA5ODMsImV4cCI6MTY4ODAxMjk4M30.WRTE0GDK-2rwz6Dr3BZY-RzbQmi6AwRNh7lZZbXOXpM`)
+                        .end((err,res) => {
+                            if(err) return done(err);
+                            expect(res.body.email).equal("nikitaopsin@gmail.com")
+                            done();
+                        }
+                        );
+                    })
+                    it("Must return user by link",function(done) {
+                        supertest(app)
+                        .get("/user/647027a4b1b7daff91ed5290")
                         .end((err,res) => {
                             if(err) return done(err);
                             expect(res.body.email).equal("nikitaopsin@gmail.com")
