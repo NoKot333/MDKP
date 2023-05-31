@@ -1,2 +1,2 @@
-cd coolproject
+cd server
 npm run start

@@ -1,2 +1,2 @@
-cd mern-blog-frontend-master
+cd client
 npm start

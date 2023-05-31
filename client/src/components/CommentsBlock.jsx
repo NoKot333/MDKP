@@ -8,6 +8,7 @@ import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
 import List from "@mui/material/List";
 import Skeleton from "@mui/material/Skeleton";
+import { Link } from "react-router-dom";
 
 export const CommentsBlock = ({ items, children, isLoading = true }) => {
   return (
@@ -30,10 +31,12 @@ export const CommentsBlock = ({ items, children, isLoading = true }) => {
                   <Skeleton variant="text" height={18} width={230} />
                 </div>
               ) : (
+                <Link to={`/user/${obj.user._id}`}>
                 <ListItemText
-                  primary={obj.user?obj.user.fullName:"Мёртвый пользователь"}
-                  secondary={obj.text}
-                />
+                primary={obj.user?obj.user.fullName:"Мёртвый пользователь"}
+                secondary={obj.text}
+              />
+                </Link>
               )}
             </ListItem>
             <Divider variant="inset" component="li" />

@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect, useCallback } from 'react'
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
-import { useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from '../axios';
 import styles from "./AddComment.module.scss";
 import { createComment, getPostComments} from "../redux/slices/comments";
@@ -29,11 +29,13 @@ export const FullPost = () => {
   const {id} = useParams();
   const dispatch = useDispatch();
   const params = useParams();
+  const navigate = useNavigate();
   const handleSubmit = () => {
     try {
         const postId = params.id
         dispatch(createComment({ postId, comment }))
         setComment('')
+        dispatch(fetchComments(id))
     } catch (error) {
         console.log(error)
     }

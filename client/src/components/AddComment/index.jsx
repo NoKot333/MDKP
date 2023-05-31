@@ -23,9 +23,11 @@ export const Index = ({ items, param }) => {
     try {
       setLoading(true);
       const postId = params.id;
-      dispatch(createComment({ postId, comment }));
+      
+      const dosc = await dispatch(createComment({ postId, comment }));
       setComment('');
       dispatch(getPostComments(postId))
+      window.alert("Комментарйи добавлен")
       navigate(`/posts/${postId}`);
     } catch (err) {
       console.warn(err);

@@ -19,7 +19,7 @@ export const create = async (req,res) => {
             console.log(error)
         }
 
-        res.json(newComment)
+        res.status(200).json(newComment)
     } catch (error) {
         console.log(error)
         res.status(500).json({message: "Что-то пошло не так."})
